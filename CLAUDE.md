@@ -63,6 +63,7 @@ deliverables/   # Final outputs (resume PDFs). Not disposable — preserve these
 profile/        # Canonical professional profile (fill in professional_profile.md)
 tools/          # Python scripts for deterministic execution
 workflows/      # Markdown SOPs defining what to do and how
+.claude/skills/ # Claude Code skills (slash commands and agent-invocable skills)
 .env            # API keys and environment variables (NEVER store secrets anywhere else)
 credentials/    # Google OAuth files (gitignored)
 ```
