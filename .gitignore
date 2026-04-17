@@ -1,0 +1,22 @@
+# Personal data — never commit these
+profile/professional_profile.md
+deliverables/
+job_descriptions/
+.tmp/
+credentials/
+.env
+
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.venv/
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+
+# macOS
+.DS_Store
