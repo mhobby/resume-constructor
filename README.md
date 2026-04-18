@@ -49,7 +49,7 @@ skills/
   construct/
     SKILL.md                             # Main skill
     workflows/
-      job_application.md                 # Step-by-step SOP
+      format_constraints.md # Constraints and quality guidelines
     tools/
       build_cv.py                        # Renders HTML → PDF via WeasyPrint
 scripts/
@@ -70,6 +70,6 @@ PDFs are generated with [WeasyPrint](https://weasyprint.org/). The HTML Claude g
 - No external fonts — system fonts only (`'Helvetica Neue', Arial, sans-serif`)
 - No float-based clearfix
 
-These constraints are documented in `skills/construct/workflows/job_application.md` and enforced by the Skill.
+These constraints are documented in `skills/construct/workflows/format_constraints.md` and enforced by the Skill.
 
 On macOS, the build command is prefixed with `DYLD_LIBRARY_PATH=/opt/homebrew/lib` — this is handled automatically by the skill.
