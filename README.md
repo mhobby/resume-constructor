@@ -15,7 +15,8 @@ The output is a clean, A4 PDF with selectable text — no rasterised layouts, no
 ### 1. Install the plugin
 
 ```
-/plugin install github:mhobby1979/resume-constructor
+/plugin marketplace add mhobby1979/resume-constructor
+/plugin install resume-constructor@mhobby1979-resume-constructor
 ```
 
 This runs `scripts/setup.sh` automatically, which installs `uv`, Python dependencies, and WeasyPrint system libraries.
