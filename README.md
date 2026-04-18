@@ -46,6 +46,7 @@ Place the JD file in `job_descriptions/<Org>/` before starting, or paste the tex
 ```
 .claude-plugin/
   plugin.json                            # Plugin manifest
+  marketplace.json                       # Marketplace catalog
 skills/
   construct/
     SKILL.md                             # Main skill
