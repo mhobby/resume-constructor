@@ -7,7 +7,7 @@
     {
       "name": "resume-constructor",
       "description": "Generate tailored CVs and cover letters from your professional profile.",
-      "source": ".",
+      "source": "https://github.com/mhobby/resume-constructor",
       "version": "1.0.0"
     }
   ]
