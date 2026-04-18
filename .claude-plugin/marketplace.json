@@ -1,0 +1,14 @@
+{
+  "name": "mhobby1979-resume-constructor",
+  "owner": {
+    "name": "Matt Hobby"
+  },
+  "plugins": [
+    {
+      "name": "resume-constructor",
+      "description": "Generate tailored CVs and cover letters from your professional profile.",
+      "source": ".",
+      "version": "1.0.0"
+    }
+  ]
+}
