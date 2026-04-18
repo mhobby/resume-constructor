@@ -12,17 +12,21 @@ If it doesn't exist, tell the user: "Your profile hasn't been set up yet. Copy `
 
 ## Step 2 — Understand the request
 
+Read `skills/construct/workflows/format_constraints.md` — these constraints apply to all output regardless of request type.
+
 Determine what the user wants:
 
-**A) Tailored application** — they've provided a JD or named a specific role. Follow the full job application workflow: `skills/construct/workflows/job_application.md`.
+**A) Tailored application** — they've provided a JD or named a specific role.
 
-**B) General CV** — no specific role. Build from the profile directly, leading with their strongest material. Skip fit-mapping and gap questions. Still follow the markdown review → approval → HTML → PDF process.
+**B) General CV** — no specific role. Build from the profile directly, leading with their strongest material. Skip fit-mapping and gap questions.
+
+In both cases follow the process of markdown review → approval → HTML → PDF.
 
 ## Step 3 — Fill gaps before drafting
 
-For a tailored application: map the JD against the profile (Strong / Partial / Gap per criterion), then ask one targeted gap question at a time. Wait for an answer before asking the next.
+For a tailored application: map the JD against the profile (Strong / Partial / Gap per criterion), then ask one targeted gap question at a time. Wait for an answer before asking the next. Once all questions are answered, reassess each criterion against the updated profile — apply the same honest scoring. If the evidence is still thin after the user's answer, say so; do not upgrade a Gap to Strong on weak grounds.
 
-For a general CV: identify the top 2–3 things missing from the profile that would strengthen it (missing metrics, unclear scope, etc.) and ask about those — one at a time.
+For a general CV: identify the top 2–3 things missing from the profile that would strengthen it (missing metrics, unclear scope, etc.) and ask about those — one at a time. Reassess after each answer using the same standard.
 
 Save every confirmed fact back to `profile/professional_profile.md` immediately.
 
@@ -39,7 +43,7 @@ When bolding for emphasis, bold the meaningful phrase not just the metric — bo
 
 After approval:
 1. Write the approved content as an HTML file to `.tmp/<name>.html` — all CSS inline in `<style>` tags
-2. Follow the WeasyPrint constraints in `skills/construct/workflows/job_application.md` without exception (no flex/grid, no external fonts, use table-based columns)
+2. Follow the WeasyPrint constraints in `skills/construct/workflows/format_constraints.md` without exception (no flex/grid, no external fonts, use table-based columns)
 3. Build the PDF:
    ```
    DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run skills/construct/tools/build_cv.py --input .tmp/<name>.html --output deliverables/<name>.pdf
