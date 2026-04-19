@@ -13,8 +13,7 @@
       "Bash(mkdir -p profile)",
       "Bash(mkdir -p .tmp)",
       "Bash(mkdir -p deliverables)",
-      "Read(~/.claude/plugins/cache/mhobby-resume-constructor/resume-constructor/*/skills/**)",
-      "Read(~/.claude/plugins/cache/mhobby-resume-constructor/resume-constructor/*/profile/**)"
+      "Read(~/.claude/plugins/cache/mhobby-resume-constructor/resume-constructor/**)"
     ]
   }
 }
