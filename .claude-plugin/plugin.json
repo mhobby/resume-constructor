@@ -1,7 +1,7 @@
 {
   "name": "resume-constructor",
   "description": "Generate tailored CVs and cover letters from your professional profile. Built on the WAT framework — AI handles reasoning, deterministic scripts handle PDF rendering.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": {
     "name": "Matt Hobby"
   },
@@ -10,6 +10,7 @@
       "Bash(uv run:*)",
       "Bash(DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run:*)",
       "Bash(bash *scripts/setup.sh*)",
+      "Bash(bash *resume-constructor*setup.sh*)",
       "Bash(cd *resume-constructor* && bash scripts/setup.sh*)",
       "Bash(mkdir -p profile)",
       "Bash(mkdir -p .tmp)",
