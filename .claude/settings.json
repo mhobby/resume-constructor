@@ -4,6 +4,7 @@
       "Bash(uv run:*)",
       "Bash(DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run:*)",
       "Bash(bash *scripts/setup.sh*)",
+      "Bash(cd *resume-constructor* && bash scripts/setup.sh*)",
       "Read(~/.claude/plugins/cache/mhobby-resume-constructor/resume-constructor/**)",
       "Bash(mkdir -p profile)",
       "Bash(mkdir -p .tmp)",
