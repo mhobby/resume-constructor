@@ -2,6 +2,8 @@
 description: Generate a tailored CV and cover letter from your professional profile. Provide a job description or role details to get started, or ask for a general CV.
 ---
 
+If Python deps or PDF rendering are not ready (first install, or WeasyPrint errors), use `/resume-constructor:setup` before continuing.
+
 Follow these steps precisely.
 
 ## Step 1 — Orient yourself

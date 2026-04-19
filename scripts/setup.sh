@@ -39,4 +39,4 @@ if [ ! -f "$PLUGIN_ROOT/profile/professional_profile.md" ]; then
 fi
 
 echo ""
-echo "Setup complete. Open Claude Code in this directory and run /resume-constructor:construct to get started."
+echo "Setup complete. Run /resume-constructor:construct when your profile is ready (use /resume-constructor:setup anytime for help with this script)."

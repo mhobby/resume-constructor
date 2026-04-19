@@ -1,6 +1,6 @@
 # Claude Resume Constructor
 
-A Claude Code plugin that adds a `/resume-constructor:construct` Skill to your Claude Code environment. This Skill generates tailored CVs and cover letters from your professional profile. The profile provides the facts, AI handles the reasoning and deterministic scripts handle the PDF rendering.
+A Claude Code plugin that adds Skills to your Claude Code environment: **`/resume-constructor:setup`** (first-time environment and profile scaffolding) and **`/resume-constructor:construct`** (tailored CV and cover letter from your profile). The profile provides the facts, AI handles the reasoning, and deterministic scripts handle the PDF rendering.
 
 ## How it works
 
@@ -19,7 +19,7 @@ The output is a clean, A4 PDF with selectable text — no rasterised layouts, no
 /plugin install resume-constructor@mhobby-resume-constructor
 ```
 
-Plugin manifests only support [session and tool lifecycle hooks](https://code.claude.com/docs/en/plugins-reference#hooks), not a `PostInstall` event, so nothing runs automatically at install time. After installing, run `./scripts/setup.sh` once from a git checkout of this repo (simplest), or from your installed copy under `~/.claude/plugins/` if you use the marketplace install alone.
+Plugin manifests only support [session and tool lifecycle hooks](https://code.claude.com/docs/en/plugins-reference#hooks), not a `PostInstall` event, so nothing runs automatically at install time. After installing, run **`/resume-constructor:setup`** once so Claude can guide you through `scripts/setup.sh` (or run `./scripts/setup.sh` yourself from a git checkout of this repo, or from your installed copy under `~/.claude/plugins/` if you use the marketplace install alone).
 
 ### 2. Set up your profile
 
@@ -30,6 +30,14 @@ cp profile/professional_profile_template.md profile/professional_profile.md
 Open `profile/professional_profile.md` and fill it in. The more detail you provide, the better the output.
 
 ## Usage
+
+First-time setup:
+
+```
+/resume-constructor:setup
+```
+
+Generate a CV or cover letter:
 
 ```
 /resume-constructor:construct
@@ -48,8 +56,10 @@ Place the JD file in `job_descriptions/<Org>/` before starting, or paste the tex
   plugin.json                            # Plugin manifest
   marketplace.json                       # Marketplace catalog
 skills/
+  setup/
+    SKILL.md                             # Environment + profile scaffolding
   construct/
-    SKILL.md                             # Main skill
+    SKILL.md                             # CV / cover letter generation
     workflows/
       format_constraints.md # Constraints and quality guidelines
     tools/
