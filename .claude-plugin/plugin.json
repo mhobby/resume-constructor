@@ -1,7 +1,7 @@
 {
   "name": "resume-constructor",
   "description": "Generate tailored CVs and cover letters from your professional profile. Built on the WAT framework — AI handles reasoning, deterministic scripts handle PDF rendering.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Matt Hobby"
   },

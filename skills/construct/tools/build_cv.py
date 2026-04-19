@@ -44,8 +44,13 @@ if __name__ == "__main__":
     parser.add_argument("--output", required=True, help="Path for output PDF (e.g. deliverables/cv.pdf)")
     args = parser.parse_args()
 
-    input_path = Path(args.input)
+    def resolve_path(p: str) -> Path:
+        path = Path(p).expanduser()
+        return path if path.is_absolute() else (Path.cwd() / path).resolve()
+
+    input_path = resolve_path(args.input)
     if not input_path.exists():
         parser.error(f"Input file not found: {input_path}")
 
-    build(input_path, ROOT / args.output if not Path(args.output).is_absolute() else Path(args.output))
+    output_path = resolve_path(args.output)
+    build(input_path, output_path)

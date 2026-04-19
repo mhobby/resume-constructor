@@ -31,12 +31,9 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     libcairo2 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
 fi
 
-# Set up profile if not already present
-if [ ! -f "$PLUGIN_ROOT/profile/professional_profile.md" ]; then
-  echo ""
-  echo "Profile not found. Copy the template and fill it in:"
-  echo "  cp $PLUGIN_ROOT/profile/professional_profile_template.md $PLUGIN_ROOT/profile/professional_profile.md"
-fi
+# Profile lives in each Claude project (workspace), not in the plugin install path.
+echo ""
+echo "Next: in your project directory, run /resume-constructor:construct or /resume-constructor:setup — a profile stub will be created at ./profile/professional_profile.md from the bundled template when missing."
 
 echo ""
 echo "Setup complete. Run /resume-constructor:construct when your profile is ready (use /resume-constructor:setup anytime for help with this script)."

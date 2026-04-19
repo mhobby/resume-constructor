@@ -38,17 +38,17 @@ If the script exits non-zero, read the full output. Common issues:
 
 Do not bypass the script with ad-hoc installs unless the user explicitly prefers that; keep one supported path.
 
-## Step 3 — Profile file
+## Step 3 — Profile file (workspace, not the plugin cache)
 
-After setup succeeds, ensure `profile/professional_profile.md` exists.
+The user’s editable profile is always **`profile/professional_profile.md` in their current project** (workspace root), never under `~/.claude/plugins/`.
 
-If only the template exists, tell the user to copy and edit:
+After environment setup succeeds, if that file is missing:
 
-```bash
-cp profile/professional_profile_template.md profile/professional_profile.md
-```
+1. `mkdir -p profile` in the project root.
+2. Copy the bundled template into the project: from `${CLAUDE_PLUGIN_ROOT}/profile/professional_profile_template.md` into `profile/professional_profile.md` (same approach as the construct skill — use `cp` with the resolved template path, or read/write).
+3. Tell the user to fill `profile/professional_profile.md` in this project, then use `/resume-constructor:construct`.
 
-They should fill in real content before using `/resume-constructor:construct`. The template copy is safe to do from the plugin root as above.
+Do not instruct them to copy or edit files only inside the plugin install directory.
 
 ## Step 4 — Confirm
 
