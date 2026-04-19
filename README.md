@@ -19,7 +19,7 @@ The output is a clean, A4 PDF with selectable text — no rasterised layouts, no
 /plugin install resume-constructor@mhobby-resume-constructor
 ```
 
-This runs `scripts/setup.sh` automatically, which installs `uv`, Python dependencies, and WeasyPrint system libraries.
+Plugin manifests only support [session and tool lifecycle hooks](https://code.claude.com/docs/en/plugins-reference#hooks), not a `PostInstall` event, so nothing runs automatically at install time. After installing, run `./scripts/setup.sh` once from a git checkout of this repo (simplest), or from your installed copy under `~/.claude/plugins/` if you use the marketplace install alone.
 
 ### 2. Set up your profile
 

@@ -5,18 +5,6 @@
   "author": {
     "name": "Matt Hobby"
   },
-  "hooks": {
-    "PostInstall": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/setup.sh"
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "Bash(uv run:*)",
