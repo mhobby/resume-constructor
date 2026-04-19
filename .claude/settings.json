@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(uv run:*)",
-      "Bash(DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run:*)"
+      "Bash(DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run:*)",
+      "Bash(bash *scripts/setup.sh*)",
+      "Bash(mkdir -p profile)",
+      "Bash(mkdir -p .tmp)",
+      "Bash(mkdir -p deliverables)"
     ]
   }
 }
