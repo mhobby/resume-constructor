@@ -1,10 +1,14 @@
 # Claude Resume Constructor
 
-A Claude Code plugin that adds a `/resume-constructor:construct` Skill to your Claude Code environment. This Skill generates tailored CVs and cover letters from your professional profile. The profile provides the facts, AI handles the reasoning and deterministic scripts handle the PDF rendering.
+A Claude Code plugin that adds Skills to your Claude Code environment:  
+- **`/resume-constructor:setup`**, for first-time environment and profile scaffolding  
+- **`/resume-constructor:construct`** for tailoring CV and cover letter from your profile    
+  
+The profile provides the facts, AI handles the reasoning, and deterministic scripts handle the PDF rendering.
 
 ## How it works
 
-1. You maintain a single `profile/professional_profile.md` — your career history, skills, achievements, and known gaps
+1. You maintain `profile/professional_profile.md` **in each project** where you use the plugin (your career history, skills, achievements, and known gaps). The construct skill creates this file from the bundled template in your project root when it is missing — you are not expected to copy paths under `~/.claude/plugins/`
 2. Drop in a job description and run `/resume-constructor:construct` — Claude reads your profile, maps it against the JD, asks targeted questions to fill gaps, drafts content for your approval, then generates a polished PDF
 3. Any new information you provide is saved back to the profile so it's never asked twice
 
@@ -19,17 +23,23 @@ The output is a clean, A4 PDF with selectable text — no rasterised layouts, no
 /plugin install resume-constructor@mhobby-resume-constructor
 ```
 
-This runs `scripts/setup.sh` automatically, which installs `uv`, Python dependencies, and WeasyPrint system libraries.
+After installing, run **`/resume-constructor:setup`** once so Claude can guide you through `scripts/setup.sh` (or run `./scripts/setup.sh` yourself from a git checkout of this repo, or from your installed copy under `~/.claude/plugins/` if you use the marketplace install alone).
 
 ### 2. Set up your profile
 
-```bash
-cp profile/professional_profile_template.md profile/professional_profile.md
-```
+Run **`/resume-constructor:construct`** in the folder you treat as the project root; if `profile/professional_profile.md` is missing, Claude will add it there from the plugin’s template. Then open **`profile/professional_profile.md`** in that project and fill it in (more detail → better output).
 
-Open `profile/professional_profile.md` and fill it in. The more detail you provide, the better the output.
+From a **git clone only**, you can still do `cp profile/professional_profile_template.md profile/professional_profile.md` by hand if you prefer.
 
 ## Usage
+
+First-time setup:
+
+```
+/resume-constructor:setup
+```
+
+Generate a CV or cover letter:
 
 ```
 /resume-constructor:construct
@@ -48,17 +58,19 @@ Place the JD file in `job_descriptions/<Org>/` before starting, or paste the tex
   plugin.json                            # Plugin manifest
   marketplace.json                       # Marketplace catalog
 skills/
+  setup/
+    SKILL.md                             # Environment + profile scaffolding
   construct/
-    SKILL.md                             # Main skill
+    SKILL.md                             # CV / cover letter generation
     workflows/
       format_constraints.md # Constraints and quality guidelines
     tools/
       build_cv.py                        # Renders HTML → PDF via WeasyPrint
 scripts/
   setup.sh                               # Dependency installer
-profile/
-  professional_profile_template.md       # Copy this and fill it in
-  professional_profile.md                # Your profile (stays local)
+profile/                                 # In each project where you work (not in ~/.claude/plugins)
+  professional_profile_template.md       # Bundled in the plugin; copied into your project when needed
+  professional_profile.md                # Your profile in this project (stays local; gitignored in this repo)
 .tmp/                                    # Intermediate working files
 deliverables/                            # Output PDFs
 job_descriptions/                        # Input JDs
