@@ -43,7 +43,31 @@ For a general CV: identify the top 2–3 things missing from the profile that wo
 
 Save every confirmed fact back to `profile/professional_profile.md` immediately.
 
-## Step 4 — Draft in markdown, get approval
+## Step 4 — Calibrate to the user's existing voice
+
+Before drafting, study prior approved work in this project's `deliverables/` so the new output sounds like the user, not like a generic template.
+
+1. List `deliverables/` at the project root. If it does not exist or is empty, skip this step and note in your reply that no prior deliverables were available for style calibration.
+2. Pick up to **three** of the most relevant existing PDFs to use as style references, prioritising in this order:
+   - Same document type as you are about to write (CV vs cover letter / personal statement).
+   - Same or adjacent role family / sector to the current request.
+   - Most recent, by file mtime, when the above are tied.
+3. Read each chosen PDF with the Read tool (it extracts text from PDFs). Keep notes on **style only**:
+   - Voice and register (formal vs conversational, first vs third person, British spellings, etc.).
+   - Bullet construction (typical length, where the impact sits, how metrics are introduced and bolded).
+   - Summary statement shape (length, opening pattern, how positioning is framed).
+   - Cover letter / personal statement rhythm (paragraph length, how criteria are introduced, sign-off pattern).
+   - Recurring vocabulary the user actually uses, and phrasings they clearly avoid.
+4. Briefly tell the user which prior deliverables you sampled and the 2–4 style cues you'll carry forward (e.g. "matching the bullet pattern from `Acme_SeniorPM_CV.pdf`: outcome-first, metric bolded with surrounding phrase, 18–24 words"). Invite them to override any cue before you draft.
+
+**Strict boundaries on this step:**
+
+- Use prior deliverables for **style only**, never as a source of facts. Every claim in the new draft must still be grounded in `profile/professional_profile.md` or in answers the user gave during gap-filling.
+- Do not lift sentences or bullet phrasings verbatim from prior deliverables — match the pattern, not the words.
+- Do not infer new biography, metrics, or achievements from a prior CV; if something interesting appears there but is missing from the profile, ask the user and, if confirmed, save it back to the profile per Step 3.
+- If prior deliverables conflict with each other or with the profile, trust the profile and ask the user to resolve the conflict.
+
+## Step 5 — Draft in markdown, get approval
 
 Write the CV (and cover letter if needed) as markdown drafts in `.tmp/`. Present them to the user. **Do not proceed until they approve.** They may edit the files directly.
 
@@ -52,7 +76,7 @@ Cover letter / personal statement: one section per criterion, labelled to match 
 
 When bolding for emphasis, bold the meaningful phrase not just the metric — bold enough context that the emphasis makes sense in isolation. "**33% decrease in learner churn**" not "**33%**".
 
-## Step 5 — Convert to HTML and build PDF
+## Step 6 — Convert to HTML and build PDF
 
 After approval:
 1. Write the approved content as an HTML file to `.tmp/<name>.html` — all CSS inline in `<style>` tags
@@ -64,7 +88,7 @@ After approval:
    Replace `<PROJECT_ABS>` with the resolved absolute path to the project root (session working directory). If `CLAUDE_PLUGIN_ROOT` is unset, `cd` to the repository root that contains `skills/construct/tools/build_cv.py` instead. On Linux, omit `DYLD_LIBRARY_PATH=...` unless you know it is required.
 4. Verify: text is selectable, no overlap, no orphaned headings, margins correct
 
-## Step 6 — Save to deliverables
+## Step 7 — Save to deliverables
 
 Confirm the PDF path to the user. Update `profile/professional_profile.md` with anything new you learned during this session.
 
@@ -76,6 +100,7 @@ Confirm the PDF path to the user. Update `profile/professional_profile.md` with 
 - Each role block (title, dates, bullets) must be wrapped so it never splits across a page — if a role is too long to fit, flag it to the user and suggest trimming before generating the PDF
 - Never change approved wording when converting markdown to HTML
 - Never over-claim fit — if evidence is thin, say so
+- Prior deliverables are a style reference, never a source of facts — never copy sentences verbatim or invent claims based on what an old CV said
 - Always save new information to the profile immediately, not at the end
 - British English unless the user specifies otherwise
 - Do not create or overwrite workflow files without asking — they are the instructions and must be preserved and refined, not discarded
