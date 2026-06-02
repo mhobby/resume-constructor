@@ -2,15 +2,17 @@
 
 A Claude Code plugin that adds Skills to your Claude Code environment:  
 - **`/resume-constructor:setup`**, for first-time environment and profile scaffolding  
-- **`/resume-constructor:construct`** for tailoring CV and cover letter from your profile    
-  
+- **`/resume-constructor:construct`** for tailoring CV and cover letter from your profile  
+- **`/resume-constructor:format <path-to-markdown>`** to convert approved drafts to PDF  
+
 The profile provides the facts, AI handles the reasoning, and deterministic scripts handle the PDF rendering.
 
 ## How it works
 
 1. You maintain `profile/professional_profile.md` **in each project** where you use the plugin (your career history, skills, achievements, and known gaps). The construct skill creates this file from the bundled template in your project root when it is missing — you are not expected to copy paths under `~/.claude/plugins/`
-2. Drop in a job description and run `/resume-constructor:construct` — Claude reads your profile, maps it against the JD, asks targeted questions to fill gaps, drafts content for your approval, then generates a polished PDF
-3. Any new information you provide is saved back to the profile so it's never asked twice
+2. Drop in a job description and run `/resume-constructor:construct` — Claude reads your profile, maps it against the JD, asks targeted questions to fill gaps, and drafts content for your approval
+3. After you approve the markdown, run `/resume-constructor:format .tmp/<name>_draft.md` to produce a polished PDF (or ask Claude to continue in the same session)
+4. Any new information you provide is saved back to the profile so it's never asked twice
 
 The output is a clean, A4 PDF with selectable text — no rasterised layouts, no Google Fonts rendering issues.
 
@@ -45,7 +47,13 @@ Generate a CV or cover letter:
 /resume-constructor:construct
 ```
 
-Paste in a job description, name a role, or ask for a general CV. Claude handles the rest.
+Paste in a job description, name a role, or ask for a general CV. After you approve the markdown draft, format it:
+
+```
+/resume-constructor:format .tmp/<ORG>_<ROLE>_CV_draft.md
+```
+
+Run format again with the cover letter path if you drafted one. You can also say “format it” in the same session after construct without re-invoking the slash command.
 
 ### Drop in a job description
 
@@ -61,9 +69,11 @@ skills/
   setup/
     SKILL.md                             # Environment + profile scaffolding
   construct/
-    SKILL.md                             # CV / cover letter generation
+    SKILL.md                             # CV / cover letter drafting
+  format/
+    SKILL.md                             # Markdown → HTML → PDF
     workflows/
-      format_constraints.md # Constraints and quality guidelines
+      format_constraints.md              # Constraints and quality guidelines
     tools/
       build_cv.py                        # Renders HTML → PDF via WeasyPrint
 scripts/
@@ -84,6 +94,6 @@ PDFs are generated with [WeasyPrint](https://weasyprint.org/). The HTML Claude g
 - No external fonts — system fonts only (`'Helvetica Neue', Arial, sans-serif`)
 - No float-based clearfix
 
-These constraints are documented in `skills/construct/workflows/format_constraints.md` and enforced by the Skill.
+These constraints are documented in `skills/format/workflows/format_constraints.md` and enforced by the format skill.
 
 On macOS, the build command is prefixed with `DYLD_LIBRARY_PATH=/opt/homebrew/lib` — this is handled automatically by the skill.
