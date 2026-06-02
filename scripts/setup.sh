@@ -34,6 +34,7 @@ fi
 # Profile lives in each Claude project (workspace), not in the plugin install path.
 echo ""
 echo "Next: in your project directory, run /resume-constructor:construct or /resume-constructor:setup — a profile stub will be created at ./profile/professional_profile.md from the bundled template when missing."
+echo "After construct approves a draft, run /resume-constructor:format <path-to-markdown> to build the PDF."
 
 echo ""
-echo "Setup complete. Run /resume-constructor:construct when your profile is ready (use /resume-constructor:setup anytime for help with this script)."
+echo "Setup complete. Run /resume-constructor:construct when your profile is ready, then /resume-constructor:format on the approved draft (use /resume-constructor:setup anytime for help with this script)."
