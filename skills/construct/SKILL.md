@@ -2,8 +2,6 @@
 description: Generate a tailored CV and cover letter from your professional profile. Provide a job description or role details to get started, or ask for a general CV.
 ---
 
-If Python deps or PDF rendering are not ready (first install, or WeasyPrint errors), use `/resume-constructor:setup` before continuing.
-
 Follow these steps precisely.
 
 ## Step 1 — Orient yourself  
@@ -25,7 +23,7 @@ Then read `profile/professional_profile.md` in full before continuing.
 
 ## Step 2 — Understand the request
 
-Read the format constraints from the plugin: `${CLAUDE_PLUGIN_ROOT}/skills/construct/workflows/format_constraints.md` when available, otherwise `skills/construct/workflows/format_constraints.md` from the project if present. These constraints apply to all output regardless of request type.
+Read the format constraints from the plugin: `${CLAUDE_PLUGIN_ROOT}/skills/format/workflows/format_constraints.md` when available, otherwise `skills/format/workflows/format_constraints.md` from the project if present. These constraints apply to all output regardless of request type.
 
 Determine what the user wants:
 
@@ -33,7 +31,7 @@ Determine what the user wants:
 
 **B) General CV** — no specific role. Build from the profile directly, leading with their strongest material. Skip fit-mapping and gap questions.
 
-In both cases follow the process of markdown review → approval → HTML → PDF.
+In both cases follow the process of markdown review → approval → format skill (HTML → PDF).
 
 ## Step 3 — Fill gaps before drafting
 
@@ -76,29 +74,17 @@ Cover letter / personal statement: one section per criterion, labelled to match 
 
 When bolding for emphasis, bold the meaningful phrase not just the metric — bold enough context that the emphasis makes sense in isolation. "**33% decrease in learner churn**" not "**33%**".
 
-## Step 6 — Convert to HTML and build PDF
+After approval, hand off to formatting:
 
-After approval:
-1. Write the approved content as an HTML file to `.tmp/<name>.html` — all CSS inline in `<style>` tags
-2. Follow the WeasyPrint constraints in `skills/construct/workflows/format_constraints.md` without exception (no flex/grid, no external fonts, use table-based columns)
-3. Build the PDF from the **plugin’s** Python environment (the user’s project may not contain `pyproject.toml`). Use the project’s absolute paths for input and output so the PDF lands in this project’s `deliverables/`:
-   ```
-   cd "${CLAUDE_PLUGIN_ROOT}" && DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run skills/construct/tools/build_cv.py --input "<PROJECT_ABS>/.tmp/<name>.html" --output "<PROJECT_ABS>/deliverables/<name>.pdf"
-   ```
-   Replace `<PROJECT_ABS>` with the resolved absolute path to the project root (session working directory). If `CLAUDE_PLUGIN_ROOT` is unset, `cd` to the repository root that contains `skills/construct/tools/build_cv.py` instead. On Linux, omit `DYLD_LIBRARY_PATH=...` unless you know it is required.
-4. Verify: text is selectable, no overlap, no orphaned headings, margins correct
+- **Default:** tell the user to run `/resume-constructor:format .tmp/<ORG>_<ROLE>_CV_draft.md` (and a second invocation with the cover letter path if applicable).
+- **Same session:** if the user asks to format or continue, follow `skills/format/SKILL.md` using the approved draft path(s). Do not regenerate or edit draft wording.
 
-## Step 7 — Save to deliverables
-
-Confirm the PDF path to the user. Update `profile/professional_profile.md` with anything new you learned during this session.
+Do not convert to HTML or build PDF in this skill.
 
 ---
 
 ## Hard rules
 
-- Never generate a PDF without explicit user approval of the content first
-- Each role block (title, dates, bullets) must be wrapped so it never splits across a page — if a role is too long to fit, flag it to the user and suggest trimming before generating the PDF
-- Never change approved wording when converting markdown to HTML
 - Never over-claim fit — if evidence is thin, say so
 - Prior deliverables are a style reference, never a source of facts — never copy sentences verbatim or invent claims based on what an old CV said
 - Always save new information to the profile immediately, not at the end

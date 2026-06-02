@@ -57,7 +57,7 @@ Briefly confirm:
 - `uv sync` completed without error.
 - On macOS, WeasyPrint libs are present (setup used Homebrew as documented).
 
-Tell the user they can run `/resume-constructor:construct` when the profile is ready. If they hit PDF or import errors later, they can invoke this setup skill again for troubleshooting and re-run `scripts/setup.sh`.
+Tell the user they can run `/resume-constructor:construct` when the profile is ready, then `/resume-constructor:format` on the approved draft. If they hit PDF or import errors later, they can invoke this setup skill again for troubleshooting and re-run `scripts/setup.sh`, or use `/resume-constructor:format` after setup for PDF-specific issues.
 
 ---
 
@@ -65,4 +65,4 @@ Tell the user they can run `/resume-constructor:construct` when the profile is r
 
 - Never claim setup ran successfully without seeing successful script output (or equivalent user confirmation).
 - Never store secrets in the profile or in chat; the profile is career content only.
-- Do not modify `skills/construct/workflows/format_constraints.md` or other workflow files during setup — setup is environment + profile scaffolding only.
+- Do not modify `skills/format/workflows/format_constraints.md` or other workflow files during setup — setup is environment + profile scaffolding only.
