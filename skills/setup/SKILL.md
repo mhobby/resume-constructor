@@ -1,5 +1,5 @@
 ---
-description: Set up the resume-constructor environment — Python deps, WeasyPrint libraries, and profile scaffolding. Run once after installing the plugin or when PDF builds fail due to missing dependencies.
+description: Set up the resume-constructor environment — Python deps, WeasyPrint libraries, and project scaffolding (`applications/`, profile). Run once after installing the plugin or when PDF builds fail due to missing dependencies.
 ---
 
 Follow these steps precisely.
@@ -38,15 +38,15 @@ If the script exits non-zero, read the full output. Common issues:
 
 Do not bypass the script with ad-hoc installs unless the user explicitly prefers that; keep one supported path.
 
-## Step 3 — Profile file (workspace, not the plugin cache)
+## Step 3 — Project scaffolding (workspace, not the plugin cache)
 
-The user’s editable profile is always **`profile/professional_profile.md` in their current project** (workspace root), never under `~/.claude/plugins/`.
+After environment setup succeeds, scaffold the project root (not under `~/.claude/plugins/`):
 
-After environment setup succeeds, if that file is missing:
-
-1. `mkdir -p profile` in the project root.
-2. Copy the bundled template into the project: from `${CLAUDE_PLUGIN_ROOT}/profile/professional_profile_template.md` into `profile/professional_profile.md` (same approach as the construct skill — use `cp` with the resolved template path, or read/write).
-3. Tell the user to fill `profile/professional_profile.md` in this project, then use `/resume-constructor:construct`.
+1. `mkdir -p applications` in the project root (create if missing). Per-application subfolders (`job_description/`, `draft/`, `deliverable/`) are created by the construct skill when you start an application — setup only needs the root `applications/` directory.
+2. Ensure the user’s editable profile exists at **`profile/professional_profile.md`**. If that file is missing:
+   - `mkdir -p profile` in the project root.
+   - Copy the bundled template into the project: from `${CLAUDE_PLUGIN_ROOT}/profile/professional_profile_template.md` into `profile/professional_profile.md` (same approach as the construct skill — use `cp` with the resolved template path, or read/write).
+   - Tell the user to fill `profile/professional_profile.md` in this project, then use `/resume-constructor:construct`.
 
 Do not instruct them to copy or edit files only inside the plugin install directory.
 
@@ -65,4 +65,4 @@ Tell the user they can run `/resume-constructor:construct` when the profile is r
 
 - Never claim setup ran successfully without seeing successful script output (or equivalent user confirmation).
 - Never store secrets in the profile or in chat; the profile is career content only.
-- Do not modify `skills/format/workflows/format_constraints.md` or other workflow files during setup — setup is environment + profile scaffolding only.
+- Do not modify `skills/format/workflows/format_constraints.md` or other workflow files during setup — setup is environment + project scaffolding only.

@@ -1,5 +1,7 @@
 # Personal data — never commit these
 profile/professional_profile.md
+applications/
+# Legacy paths (pre-applications layout)
 deliverables/
 job_descriptions/
 .tmp/
