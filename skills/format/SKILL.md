@@ -4,7 +4,7 @@ description: Convert approved CV or cover letter markdown to HTML and PDF. Usage
 
 If Python deps or PDF rendering are not ready (first install, or WeasyPrint errors), use `/resume-constructor:setup` before continuing.
 
-All paths (`profile/`, `.tmp/`, `deliverables/`) are relative to the **current project root** (the workspace where the user is working), not inside the plugin install directory.
+All paths (`profile/`, `applications/`) are relative to the **current project root** (the workspace where the user is working), not inside the plugin install directory.
 
 Follow these steps precisely.
 
@@ -20,10 +20,10 @@ You need **exactly one** approved markdown file per invocation.
 
 Verify the file exists. If the path is missing or wrong, stop and ask for a valid path — do not guess.
 
-Read naming rules in `${CLAUDE_PLUGIN_ROOT}/skills/format/workflows/format_constraints.md` when available, otherwise `skills/format/workflows/format_constraints.md` from the project. Derive output names from the input basename, e.g.:
+Read naming rules in `${CLAUDE_PLUGIN_ROOT}/skills/format/workflows/format_constraints.md` when available, otherwise `skills/format/workflows/format_constraints.md` from the project. Derive output names from the input path. Drafts live under `applications/<ORG>_<ROLE>/draft/`; HTML intermediates stay in the same `draft/` folder; final PDFs go in that application's `deliverable/` folder, e.g.:
 
-- `.tmp/<ORG>_<ROLE>_CV_draft.md` → `.tmp/<ORG>_<ROLE>_CV.html` → `deliverables/<ORG>_<ROLE>_CV.pdf`
-- `.tmp/<ORG>_<ROLE>_CoverLetter_draft.md` → `.tmp/<ORG>_<ROLE>_CoverLetter.html` → `deliverables/<ORG>_<ROLE>_CoverLetter.pdf`
+- `applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CV_draft.md` → `applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CV.html` → `applications/<ORG>_<ROLE>/deliverable/<ORG>_<ROLE>_CV.pdf`
+- `applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CoverLetter_draft.md` → `applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CoverLetter.html` → `applications/<ORG>_<ROLE>/deliverable/<ORG>_<ROLE>_CoverLetter.pdf`
 
 **One file per invocation.** For both CV and cover letter, run this skill twice with each approved draft path.
 
@@ -32,19 +32,21 @@ Read naming rules in `${CLAUDE_PLUGIN_ROOT}/skills/format/workflows/format_const
 ## Step 2 — Convert to HTML
 
 1. Read the approved markdown in full.
-2. Write HTML to `.tmp/<name>.html` in the project — all CSS inline in `<style>` tags within `<head>`.
+2. Write HTML to `applications/<ORG>_<ROLE>/draft/<name>.html` in the project — all CSS inline in `<style>` tags within `<head>`.
 3. Follow the WeasyPrint constraints in `skills/format/workflows/format_constraints.md` without exception (no flex/grid, no external fonts, use table-based columns).
 4. Each CV role block (title, dates, bullets) must be wrapped so it never splits across a page — if a role is too long to fit, flag it to the user and suggest trimming before building the PDF.
 
 ## Step 3 — Build PDF
 
-Build the PDF from the **plugin’s** Python environment (the user’s project may not contain `pyproject.toml`). Use the project’s absolute paths for input and output so the PDF lands in this project’s `deliverables/`:
+Build the PDF from the **plugin’s** Python environment (the user’s project may not contain `pyproject.toml`). Use the project’s absolute paths for input and output so the PDF lands in this application’s `deliverable/` folder:
 
 ```
-cd "${CLAUDE_PLUGIN_ROOT}" && DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run skills/format/tools/build_cv.py --input "<PROJECT_ABS>/.tmp/<name>.html" --output "<PROJECT_ABS>/deliverables/<name>.pdf"
+cd "${CLAUDE_PLUGIN_ROOT}" && DYLD_LIBRARY_PATH=/opt/homebrew/lib uv run skills/format/tools/build_cv.py --input "<PROJECT_ABS>/applications/<ORG>_<ROLE>/draft/<name>.html" --output "<PROJECT_ABS>/applications/<ORG>_<ROLE>/deliverable/<name>.pdf"
 ```
 
 Replace `<PROJECT_ABS>` with the resolved absolute path to the project root (session working directory). If `CLAUDE_PLUGIN_ROOT` is unset, `cd` to the repository root that contains `skills/format/tools/build_cv.py` instead. On Linux, omit `DYLD_LIBRARY_PATH=...` unless you know it is required.
+
+Ensure `applications/<ORG>_<ROLE>/deliverable/` exists before writing the PDF (`mkdir -p` if needed).
 
 Verify: text is selectable, no overlap, no orphaned headings, margins correct.
 
@@ -61,4 +63,3 @@ Confirm the PDF path to the user. If the user added new career facts during HTML
 - Each role block (title, dates, bullets) must be wrapped so it never splits across a page — if a role is too long to fit, flag it to the user and suggest trimming before generating the PDF
 - Do not create or overwrite workflow files without asking — they are the instructions and must be preserved and refined, not discarded
 - When a tool fails: read the full error, fix the script, retest, then update the workflow with what you learned
-- Everything in `.tmp/` is disposable. Everything in `deliverables/` is not — never delete deliverables
