@@ -6,7 +6,7 @@ Follow these steps precisely.
 
 ## Step 1 — Orient yourself  
 
-All paths in this skill (`profile/`, `.tmp/`, `deliverables/`, `job_descriptions/`) are relative to the **current project root** (the workspace where the user is working), not inside the plugin install directory (`~/.claude/plugins/...`).
+All paths in this skill (`profile/`, `applications/`) are relative to the **current project root** (the workspace where the user is working), not inside the plugin install directory (`~/.claude/plugins/...`).
 
 **Profile location:** `profile/professional_profile.md` in the project.
 
@@ -33,7 +33,24 @@ Determine what the user wants:
 
 In both cases follow the process of markdown review → approval → format skill (HTML → PDF).
 
-## Step 3 — Fill gaps before drafting
+## Step 3 — Open (or create) the application folder
+
+Every application lives under `applications/<ORG>_<ROLE>/` with three fixed subfolders:
+
+```
+applications/
+  <ORG>_<ROLE>/
+    job_description/   # JD input
+    draft/             # markdown drafts + HTML intermediates (disposable)
+    deliverable/       # approved PDFs (keep)
+```
+
+1. Choose a folder name `<ORG>_<ROLE>` from the company and role (e.g. `Acme_SeniorPM`). For a general CV with no specific role, use `General_CV`.
+2. Ensure the tree exists: `mkdir -p "applications/<ORG>_<ROLE>/job_description" "applications/<ORG>_<ROLE>/draft" "applications/<ORG>_<ROLE>/deliverable"`.
+3. For a tailored application: save or copy the job description into `applications/<ORG>_<ROLE>/job_description/` (create the file if the user pasted the JD in chat). If a JD already exists there, use it.
+4. Tell the user the application path you are using.
+
+## Step 4 — Fill gaps before drafting
 
 For a tailored application: map the JD against the profile (Strong / Partial / Gap per criterion), then ask one targeted gap question at a time. Wait for an answer before asking the next. Once all questions are answered, reassess each criterion against the updated profile — apply the same honest scoring. If the evidence is still thin after the user's answer, say so; do not upgrade a Gap to Strong on weak grounds.
 
@@ -41,11 +58,11 @@ For a general CV: identify the top 2–3 things missing from the profile that wo
 
 Save every confirmed fact back to `profile/professional_profile.md` immediately.
 
-## Step 4 — Calibrate to the user's existing voice
+## Step 5 — Calibrate to the user's existing voice
 
-Before drafting, study prior approved work in this project's `deliverables/` so the new output sounds like the user, not like a generic template.
+Before drafting, study prior approved work in this project's `applications/*/deliverable/` so the new output sounds like the user, not like a generic template.
 
-1. List `deliverables/` at the project root. If it does not exist or is empty, skip this step and note in your reply that no prior deliverables were available for style calibration.
+1. List PDFs under `applications/*/deliverable/` at the project root. If none exist, skip this step and note in your reply that no prior deliverables were available for style calibration.
 2. Pick up to **three** of the most relevant existing PDFs to use as style references, prioritising in this order:
    - Same document type as you are about to write (CV vs cover letter / personal statement).
    - Same or adjacent role family / sector to the current request.
@@ -56,18 +73,18 @@ Before drafting, study prior approved work in this project's `deliverables/` so 
    - Summary statement shape (length, opening pattern, how positioning is framed).
    - Cover letter / personal statement rhythm (paragraph length, how criteria are introduced, sign-off pattern).
    - Recurring vocabulary the user actually uses, and phrasings they clearly avoid.
-4. Briefly tell the user which prior deliverables you sampled and the 2–4 style cues you'll carry forward (e.g. "matching the bullet pattern from `Acme_SeniorPM_CV.pdf`: outcome-first, metric bolded with surrounding phrase, 18–24 words"). Invite them to override any cue before you draft.
+4. Briefly tell the user which prior deliverables you sampled and the 2–4 style cues you'll carry forward (e.g. "matching the bullet pattern from `applications/Acme_SeniorPM/deliverable/Acme_SeniorPM_CV.pdf`: outcome-first, metric bolded with surrounding phrase, 18–24 words"). Invite them to override any cue before you draft.
 
 **Strict boundaries on this step:**
 
 - Use prior deliverables for **style only**, never as a source of facts. Every claim in the new draft must still be grounded in `profile/professional_profile.md` or in answers the user gave during gap-filling.
 - Do not lift sentences or bullet phrasings verbatim from prior deliverables — match the pattern, not the words.
-- Do not infer new biography, metrics, or achievements from a prior CV; if something interesting appears there but is missing from the profile, ask the user and, if confirmed, save it back to the profile per Step 3.
+- Do not infer new biography, metrics, or achievements from a prior CV; if something interesting appears there but is missing from the profile, ask the user and, if confirmed, save it back to the profile per Step 4.
 - If prior deliverables conflict with each other or with the profile, trust the profile and ask the user to resolve the conflict.
 
-## Step 5 — Draft in markdown, get approval
+## Step 6 — Draft in markdown, get approval
 
-Write the CV (and cover letter if needed) as markdown drafts in `.tmp/`. Present them to the user. **Do not proceed until they approve.** They may edit the files directly.
+Write the CV (and cover letter if needed) as markdown drafts in `applications/<ORG>_<ROLE>/draft/`. Present them to the user. **Do not proceed until they approve.** They may edit the files directly.
 
 CV: max 2 pages. Lead with impact. Quantify everything possible.
 Cover letter / personal statement: one section per criterion, labelled to match the JD.
@@ -76,7 +93,7 @@ When bolding for emphasis, bold the meaningful phrase not just the metric — bo
 
 After approval, hand off to formatting:
 
-- **Default:** tell the user to run `/resume-constructor:format .tmp/<ORG>_<ROLE>_CV_draft.md` (and a second invocation with the cover letter path if applicable).
+- **Default:** tell the user to run `/resume-constructor:format applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CV_draft.md` (and a second invocation with the cover letter path if applicable).
 - **Same session:** if the user asks to format or continue, follow `skills/format/SKILL.md` using the approved draft path(s). Do not regenerate or edit draft wording.
 
 Do not convert to HTML or build PDF in this skill.
@@ -91,4 +108,4 @@ Do not convert to HTML or build PDF in this skill.
 - British English unless the user specifies otherwise
 - Do not create or overwrite workflow files without asking — they are the instructions and must be preserved and refined, not discarded
 - When a tool fails: read the full error, fix the script, retest, then update the workflow with what you learned
-- Everything in `.tmp/` is disposable. Everything in `deliverables/` is not — never delete deliverables
+- Everything in `draft/` is disposable. Everything in `deliverable/` is not — never delete deliverables
