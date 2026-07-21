@@ -3,6 +3,7 @@
 A Claude Code plugin that adds Skills to your Claude Code environment:  
 - **`/resume-constructor:setup`**, for first-time environment and profile scaffolding  
 - **`/resume-constructor:construct`** for tailoring CV and cover letter from your profile  
+- **`/resume-constructor:cv_review <path-to-draft>`** to review a CV draft and rewrite it against style, substance, and language checks  
 - **`/resume-constructor:format <path-to-markdown>`** to convert approved drafts to PDF  
 
 The profile provides the facts, AI handles the reasoning, and deterministic scripts handle the PDF rendering.
@@ -10,7 +11,7 @@ The profile provides the facts, AI handles the reasoning, and deterministic scri
 ## How it works
 
 1. You maintain `profile/professional_profile.md` **in each project** where you use the plugin (your career history, skills, achievements, and known gaps). The construct skill creates this file from the bundled template in your project root when it is missing — you are not expected to copy paths under `~/.claude/plugins/`
-2. Drop in a job description and run `/resume-constructor:construct` — Claude reads your profile, maps it against the JD, asks targeted questions to fill gaps, and drafts content for your approval
+2. Drop in a job description and run `/resume-constructor:construct` — Claude reads your profile, maps it against the JD, asks targeted questions to fill gaps, drafts content, then runs `cv_review` to improve the CV draft before you approve
 3. After you approve the markdown, run `/resume-constructor:format applications/<ORG>_<ROLE>/draft/<name>_draft.md` to produce a polished PDF (or ask Claude to continue in the same session)
 4. Any new information you provide is saved back to the profile so it's never asked twice
 
@@ -47,13 +48,19 @@ Generate a CV or cover letter:
 /resume-constructor:construct
 ```
 
-Paste in a job description, name a role, or ask for a general CV. After you approve the markdown draft, format it:
+Paste in a job description, name a role, or ask for a general CV. Construct always runs `cv_review` on the CV draft (rewrite in place) before asking for approval. You can also re-run review later:
+
+```
+/resume-constructor:cv_review applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CV_draft.md
+```
+
+After you approve the markdown draft, format it:
 
 ```
 /resume-constructor:format applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CV_draft.md
 ```
 
-Run format again with the cover letter path if you drafted one. You can also say “format it” in the same session after construct without re-invoking the slash command.
+Run format again with the cover letter path if you drafted one. You can also say “format it” or “review the draft” in the same session after construct without re-invoking the slash command.
 
 ### Drop in a job description
 
@@ -70,6 +77,8 @@ skills/
     SKILL.md                             # Environment + profile scaffolding
   construct/
     SKILL.md                             # CV / cover letter drafting
+  cv_review/
+    SKILL.md                             # CV draft review + rewrite
   format/
     SKILL.md                             # Markdown → HTML → PDF
     workflows/

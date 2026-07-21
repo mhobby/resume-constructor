@@ -31,7 +31,7 @@ Determine what the user wants:
 
 **B) General CV** — no specific role. Build from the profile directly, leading with their strongest material. Skip fit-mapping and gap questions.
 
-In both cases follow the process of markdown review → approval → format skill (HTML → PDF).
+In both cases follow the process of draft → cv_review (improve in place) → approval → format skill (HTML → PDF).
 
 ## Step 3 — Open (or create) the application folder
 
@@ -85,14 +85,29 @@ Before drafting a tailored application, find prior applications whose **job desc
 - Do not infer new biography, metrics, or achievements from a prior CV; if something interesting appears there but is missing from the profile, ask the user and, if confirmed, save it back to the profile per Step 4.
 - If prior deliverables conflict with each other or with the profile, trust the profile and ask the user to resolve the conflict.
 
-## Step 6 — Draft in markdown, get approval
+## Step 6 — Draft in markdown
 
-Write the CV (and cover letter if needed) as markdown drafts in `applications/<ORG>_<ROLE>/draft/`. Present them to the user. **Do not proceed until they approve.** They may edit the files directly.
+Write the CV (and cover letter if needed) as markdown drafts in `applications/<ORG>_<ROLE>/draft/`.
 
 CV: max 2 pages. Lead with impact. Quantify everything possible.
 Cover letter / personal statement: one section per criterion, labelled to match the JD.
 
 When bolding for emphasis, bold the meaningful phrase not just the metric — bold enough context that the emphasis makes sense in isolation. "**33% decrease in learner churn**" not "**33%**".
+
+Do not ask for approval yet — go straight to Step 7.
+
+## Step 7 — Review and improve the CV draft
+
+**Always** run the cv_review skill on the CV draft before presenting for approval. Do not skip this step and do not wait for the user to ask.
+
+1. Follow `${CLAUDE_PLUGIN_ROOT}/skills/cv_review/SKILL.md` when available, otherwise `skills/cv_review/SKILL.md` from the project.
+2. Use the CV draft path just written: `applications/<ORG>_<ROLE>/draft/<ORG>_<ROLE>_CV_draft.md`.
+3. Complete the full cv_review flow (checklist → rewrite in place → report). If cv_review raises open questions that need facts, ask them (one at a time), save answers to the profile, and finish any remaining draft fixes before continuing.
+4. Cover letters are out of scope for cv_review unless the user asks; leave the cover letter draft as written in Step 6.
+
+## Step 8 — Get approval, then format
+
+Present the **reviewed** CV draft (and cover letter if any) to the user, including the cv_review report of what changed. **Do not proceed until they approve.** They may edit the files directly.
 
 After approval, hand off to formatting:
 
@@ -107,6 +122,7 @@ Do not convert to HTML or build PDF in this skill.
 
 - Never over-claim fit — if evidence is thin, say so
 - Prior deliverables are a style reference, never a source of facts — never copy sentences verbatim or invent claims based on what an old CV said
+- Always run cv_review on the CV draft before asking for approval — do not treat it as optional
 - Always save new information to the profile immediately, not at the end
 - British English unless the user specifies otherwise
 - Do not create or overwrite workflow files without asking — they are the instructions and must be preserved and refined, not discarded
