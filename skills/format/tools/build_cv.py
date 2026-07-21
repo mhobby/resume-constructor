@@ -2,7 +2,7 @@
 Render an HTML file to PDF using WeasyPrint.
 
 Usage:
-    uv run tools/build_cv.py --input .tmp/cv.html --output deliverables/cv.pdf
+    uv run tools/build_cv.py --input applications/<ORG>_<ROLE>/draft/cv.html --output applications/<ORG>_<ROLE>/deliverable/cv.pdf
 
 The HTML file should contain all content and styling in <style> tags.
 WeasyPrint CSS constraints — read before writing HTML:
@@ -40,8 +40,8 @@ def build(input_path: Path, output_path: Path) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Render an HTML file to PDF via WeasyPrint")
-    parser.add_argument("--input", required=True, help="Path to HTML input file (e.g. .tmp/cv.html)")
-    parser.add_argument("--output", required=True, help="Path for output PDF (e.g. deliverables/cv.pdf)")
+    parser.add_argument("--input", required=True, help="Path to HTML input file (e.g. applications/<ORG>_<ROLE>/draft/cv.html)")
+    parser.add_argument("--output", required=True, help="Path for output PDF (e.g. applications/<ORG>_<ROLE>/deliverable/cv.pdf)")
     args = parser.parse_args()
 
     def resolve_path(p: str) -> Path:
