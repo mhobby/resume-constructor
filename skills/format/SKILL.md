@@ -50,9 +50,28 @@ Ensure `applications/<ORG>_<ROLE>/deliverable/` exists before writing the PDF (`
 
 Verify: text is selectable, no overlap, no orphaned headings, margins correct.
 
-## Step 4 — Confirm deliverables
+## Step 4 — Record application date
 
-Confirm the PDF path to the user. If the user added new career facts during HTML review (unusual), update `profile/professional_profile.md` — construct normally saves profile updates during drafting.
+After the PDF is written successfully, log the application in **`applications/application_dates.csv`** at the project root (not in the plugin). This file is user-generated project data — same idea as `profile/professional_profile.md`. It is never shipped with the skill or plugin; create or update it only in the workspace.
+
+1. Ensure `applications/` exists (`mkdir -p applications` if needed).
+2. If `applications/application_dates.csv` is missing, create it with this header row only:
+   ```
+   application,date
+   ```
+3. Use today’s date in `YYYY-MM-DD` (local date when the deliverable was produced).
+4. Application name = the `<ORG>_<ROLE>` folder name (e.g. `Acme_SeniorPM`).
+5. If a row for that application already exists, **update** its `date` to today. Otherwise **append** a new row:
+   ```
+   <ORG>_<ROLE>,YYYY-MM-DD
+   ```
+6. Do not invent extra columns. Keep CSV simple: `application,date`.
+
+Formatting both a CV and a cover letter for the same application in one session should leave a single row for that application (update the date on the second format if needed — do not duplicate rows).
+
+## Step 5 — Confirm deliverables
+
+Confirm the PDF path to the user, and that `applications/application_dates.csv` was created or updated. If the user added new career facts during HTML review (unusual), update `profile/professional_profile.md` — construct normally saves profile updates during drafting.
 
 ---
 

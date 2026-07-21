@@ -65,12 +65,14 @@ These rules must be followed in every HTML document. Violating them causes silen
 
 ## File Naming Convention
 ```
-applications/<ORG>_<ROLE>/
-  job_description/                           # JD input
-  draft/<ORG>_<ROLE>_CV_draft.md
-  draft/<ORG>_<ROLE>_CoverLetter_draft.md
-  draft/<ORG>_<ROLE>_CV.html
-  draft/<ORG>_<ROLE>_CoverLetter.html
-  deliverable/<ORG>_<ROLE>_CV.pdf
-  deliverable/<ORG>_<ROLE>_CoverLetter.pdf
+applications/
+  application_dates.csv                      # User data: application,date (YYYY-MM-DD); created/updated by format
+  <ORG>_<ROLE>/
+    job_description/                         # JD input
+    draft/<ORG>_<ROLE>_CV_draft.md
+    draft/<ORG>_<ROLE>_CoverLetter_draft.md
+    draft/<ORG>_<ROLE>_CV.html
+    draft/<ORG>_<ROLE>_CoverLetter.html
+    deliverable/<ORG>_<ROLE>_CV.pdf
+    deliverable/<ORG>_<ROLE>_CoverLetter.pdf
 ```

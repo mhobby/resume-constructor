@@ -81,7 +81,8 @@ scripts/
 profile/                                 # In each project where you work (not in ~/.claude/plugins)
   professional_profile_template.md       # Bundled in the plugin; copied into your project when needed
   professional_profile.md                # Your profile in this project (stays local; gitignored in this repo)
-applications/                            # One subfolder per application
+applications/                            # One subfolder per application (stays local; gitignored in this repo)
+  application_dates.csv                  # Log of application name + deliverable date (created/updated by format)
   <ORG>_<ROLE>/
     job_description/                     # Input JDs
     draft/                               # Markdown drafts + HTML intermediates
